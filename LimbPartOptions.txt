@@ -1,0 +1,40 @@
+public class LimbPart{
+    private RigidBody2D rigidbody;
+    private Transform transform;
+    
+    public Vector2 offset;
+    
+    public LimbPart(Rigidbody2D rigidbody) {
+        this.rigidbody = rigidbody;
+        this.transform = ridgidbody.transform;
+        
+        var hinge = transform.GetComponent<HingeJoint2D>();
+        offset = hinge.connectedAnchor;
+    }
+    
+    public void RotateTower(Vector2 worldPos, float force, float ratio) {
+        var direction = worldPos - (offset + (Vector2)transform.position);
+    }
+    
+    public void OnDrawGizmoz() {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSqhere((Vector2)transform.position + offset, .1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSqhere((Vector2)transform.position - offset, .1f);
+    }
+}
+
+
+public class LimbPart
+{
+    private Transform transform;
+    public LimbPart(Transform transform) {
+        this.transform = transform;
+    }
+
+    public float GetAngleFromDir(Vector2 dir) {
+        dir = dir.normalized;
+        var angle = Mathf.Acos(dir.x) * Mathf.Rad2Deg;
+        return dir.y > 0 ? angle : 360 - angle;
+    }
+}
